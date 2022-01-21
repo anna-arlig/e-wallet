@@ -1,19 +1,18 @@
 <template>
   <div class="home-view">
     <h1>E-Wallet</h1>
-    <p>Active card</p>
-    <SingelCard />
+    <p :style="{ color: 'darkgrey' }">Active card</p>
     <CardList />
     <button @click="$emit('viewChange')">ADD A NEW CARD</button>
   </div>
 </template>
 
 <script>
-import { CardList, SingelCard } from "../components";
+import { CardList } from "../components";
 
 export default {
   methods: {},
-  components: { CardList, SingelCard },
+  components: { CardList },
 };
 </script>
 

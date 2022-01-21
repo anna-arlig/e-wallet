@@ -1,7 +1,7 @@
 <template>
   <div class="app">
     <Home v-if="currentview == 'home'" @viewChange="changeView" />
-    <AddCard v-else @viewChange="changeView" @send="saveCard" />
+    <AddCard v-else @viewChange="changeView" />
   </div>
 </template>
 
@@ -25,16 +25,6 @@ export default {
   data() {
     return {
       currentview: "home",
-      cardsArray: [
-        {
-          vendor: "Vendor",
-          cardNumber: "XXXX XXXX XXXX XXXX",
-          cardholder: "Firstname Lastname",
-          expireMonth: "MM",
-          expireYear: "YY",
-          CCV: "XXX",
-        },
-      ],
     };
   },
 };
@@ -59,7 +49,6 @@ h1 {
 }
 
 p {
-  color: darkgrey;
   text-transform: uppercase;
   font-family: "Source Sans Pro", sans-serif;
   text-align: center;

@@ -1,23 +1,36 @@
 <template>
   <div>
     <SingelCard :card="card" :vendors="vendors" />
-    <form class="user-form" @submit.prevent="'submit', card">
+    <form class="user-form" @submit.prevent="submit">
       <label for="card-number">CARD NUMBER</label>
-      <input type="text" name="cardholder-name" v-model="card.cardNumber" />
+      <input
+        type="number"
+        name="cardnumber"
+        v-model="card.cardNumber"
+        maxlength="16"
+      />
       <label for="cardholder-name">CARDHOLDER NAME</label>
       <input type="text" name="cardholder-name" v-model="card.cardholderName" />
-      <label for="month">MONTH</label>
-      <select id="months" name="months" v-model="card.month">
-        <option v-for="month in months" :key="month" value:value="month">
-          {{ month }}
-        </option>
-      </select>
-      <label for="year">YEAR</label>
-      <select id="year" name="year" v-model="card.year">
-        <option v-for="year in years" :key="year" name="year">
-          {{ year }}
-        </option>
-      </select>
+      <div class="date">
+        <div class="valid">
+          <label for="month">MONTH</label>
+          <select name="months" v-model="card.month">
+            <option v-for="month in months" :key="month" value:value="month">
+              {{ month }}
+            </option>
+          </select>
+        </div>
+
+        <div class="valid">
+          <label for="year">YEAR</label>
+          <select name="year" v-model="card.year">
+            <option v-for="year in years" :key="year" name="year">
+              {{ year }}
+            </option>
+          </select>
+        </div>
+      </div>
+
       <label for="vendor">VENDOR</label>
       <select id="vendor" name="vendor" v-model="card.vendor">
         <option
@@ -31,7 +44,6 @@
       </select>
       <input
         class="submit-btn"
-        @click="$emit('viewChange')"
         @submit="submit"
         type="submit"
         value="ADD CARD"
@@ -46,19 +58,20 @@ export default {
   components: { SingelCard },
   data() {
     return {
+      savedCards: [],
       card: {
         cardNumber: "",
         cardholderName: "",
         month: "",
         year: "",
-        vendor: "",
+        vendor: {},
       },
 
       vendors: [
         {
           name: "Bitcoin Inc",
           backgroundColor: "#FFAE34",
-          fontColor: "white",
+          fontColor: "black",
           logo: require("../assets/bitcoin.svg"),
         },
         {
@@ -100,13 +113,26 @@ export default {
   },
   methods: {
     submit() {
-      this.$emit("send", { ...this.card });
+      this.savedCards.push({ ...this.card });
+      console.log(this.savedCards);
+      this.$emit("submit", this.savedCards);
+      this.$emit("viewChange");
     },
   },
 };
 </script>
 
 <style scoped>
+.date {
+  display: flex;
+  justify-content: space-around;
+  margin: 10px;
+}
+
+label {
+  margin: 5px;
+  margin-top: 10px;
+}
 .user-form {
   display: flex;
   flex-direction: column;
