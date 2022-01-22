@@ -3,18 +3,14 @@
     <SingelCard :card="card" :vendors="vendors" />
     <form class="user-form" @submit.prevent="submit">
       <label for="card-number">CARD NUMBER</label>
-      <input
-        type="number"
-        name="cardnumber"
-        v-model="card.cardNumber"
-        maxlength="16"
-      />
+      <input type="number" name="cardnumber" v-model="card.cardNumber" />
       <label for="cardholder-name">CARDHOLDER NAME</label>
       <input type="text" name="cardholder-name" v-model="card.cardholderName" />
+
       <div class="date">
         <div class="valid">
           <label for="month">MONTH</label>
-          <select name="months" v-model="card.month">
+          <select name="months" v-model="card.month" class="date-select">
             <option v-for="month in months" :key="month" value:value="month">
               {{ month }}
             </option>
@@ -23,7 +19,7 @@
 
         <div class="valid">
           <label for="year">YEAR</label>
-          <select name="year" v-model="card.year">
+          <select name="year" v-model="card.year" class="date-select">
             <option v-for="year in years" :key="year" name="year">
               {{ year }}
             </option>
@@ -44,7 +40,7 @@
       </select>
       <input
         class="submit-btn"
-        @submit="submit"
+        @click="validate"
         type="submit"
         value="ADD CARD"
       />
@@ -58,7 +54,7 @@ export default {
   components: { SingelCard },
   data() {
     return {
-      savedCards: [],
+      savedCardsArray: [],
       card: {
         cardNumber: "",
         cardholderName: "",
@@ -112,31 +108,53 @@ export default {
     };
   },
   methods: {
-    submit() {
-      this.savedCards.push({ ...this.card });
-      console.log(this.savedCards);
-      this.$emit("submit", this.savedCards);
+    validate() {
       this.$emit("viewChange");
     },
+  },
+  beforeDestroy() {
+    if (localStorage.getItem("savedCards") != undefined) {
+      this.savedCardsArray = JSON.parse(localStorage.getItem("savedCards"));
+    }
+    this.savedCardsArray.push(this.card);
+    localStorage.setItem("savedCards", JSON.stringify(this.savedCardsArray));
   },
 };
 </script>
 
 <style scoped>
+.date-select {
+  min-width: 160px;
+}
+
+input {
+  min-height: 25px;
+}
+
+select {
+  min-height: 30px;
+}
+
 .date {
   display: flex;
-  justify-content: space-around;
-  margin: 10px;
+  justify-content: space-between;
 }
 
 label {
   margin: 5px;
   margin-top: 10px;
 }
+
+.valid {
+  display: flex;
+  flex-direction: column;
+}
+
 .user-form {
   display: flex;
   flex-direction: column;
 }
+
 .submit-btn {
   background-color: black;
   color: white;

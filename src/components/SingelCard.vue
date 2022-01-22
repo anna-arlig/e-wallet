@@ -1,5 +1,5 @@
 <template>
-  <div class="single-card" @submit="$emit('submit', savedCards)">
+  <div class="single-card" @click="$emit('wasClicked')">
     <div class="card" v-bind:style="cardStyle">
       <span class="upperpart">
         <div class="logos">
@@ -164,6 +164,6 @@ export default {
   min-width: 350px;
   min-height: 200px;
   box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.81);
-  margin-bottom: 40px;
+  margin-bottom: 30px;
 }
 </style>

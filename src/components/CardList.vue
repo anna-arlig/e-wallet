@@ -1,19 +1,26 @@
 <template>
   <div class="card-list">
-    <SingelCard :card="card" :vendors="vendors" @submit="saveCard" />
+    <SingelCard v-if="!savedCardsArray" :card="card" class="single-card" />
+    <SingelCard
+      @wasClicked="changeActive(index)"
+      :card="card"
+      v-else
+      v-for="(card, index) in savedCardsArray"
+      :key="card.index"
+      :class="{ active: index === 0 }"
+    />
   </div>
 </template>
 
 <script>
 import SingelCard from "./SingelCard.vue";
 export default {
+  mounted() {
+    this.savedCardsArray = JSON.parse(localStorage.getItem("savedCards"));
+  },
   data() {
     return {
-      savedCards: [],
-      wifiImg: require("../assets/wifi.svg"),
-      chipImg: require("../assets/chip.svg"),
-      whiteWifiImg: require("../assets/wifi_white.svg"),
-      vendorLogo: require("../assets/bitcoin.svg"),
+      savedCardsArray: [],
       card: {
         cardNumber: "",
         cardholderName: "",
@@ -21,41 +28,23 @@ export default {
         year: "",
         vendor: {},
       },
-      vendors: [
-        {
-          name: "Bitcoin Inc",
-          backgroundColor: "#FFAE34",
-          fontColor: "black",
-          logo: require("../assets/bitcoin.svg"),
-        },
-        {
-          name: "Ninja Bank",
-          backgroundColor: "#222222",
-          fontColor: "white",
-          logo: require("../assets/ninja.svg"),
-        },
-        {
-          name: "Block Chain Inc",
-          backgroundColor: "#8B58F9",
-          fontColor: "white",
-          logo: require("../assets/blockchain.svg"),
-        },
-        {
-          name: "Evil Corp",
-          backgroundColor: "#F33355",
-          fontColor: "white",
-          logo: require("../assets/evil.svg"),
-        },
-      ],
     };
   },
   components: { SingelCard },
   methods: {
-    saveCard() {
-      this.savedCards.push("savedCards");
+    changeActive(index) {
+      if (index > 0) {
+        let newActive = this.savedCardsArray[index];
+        this.savedCardsArray.splice(index, 1);
+        this.savedCardsArray.unshift(newActive);
+      }
     },
   },
 };
 </script>
 
-<style></style>
+<style scoped>
+.single-card:not(:first-of-type):hover {
+  transform: translateY(-20%);
+}
+</style>

@@ -10,6 +10,7 @@
 import { NewCardForm } from "../components";
 export default {
   methods: {},
+
   components: { NewCardForm },
 };
 </script>

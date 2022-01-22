@@ -12,6 +12,10 @@ import { CardList } from "../components";
 
 export default {
   methods: {},
+
+  data() {
+    return {};
+  },
   components: { CardList },
 };
 </script>
