@@ -2,8 +2,7 @@
   <div class="home-view">
     <h1>E-Wallet</h1>
     <p :style="{ color: 'darkgrey' }">Active card</p>
-    <CardList />
-    <button @click="$emit('viewChange')">ADD A NEW CARD</button>
+    <CardList @viewChange="$emit('viewChange')" />
   </div>
 </template>
 
@@ -37,6 +36,6 @@ button {
   padding-left: 100px;
   padding-right: 100px;
   margin: auto;
-  margin-top: 40px;
+  margin-top: 210px;
 }
 </style>

@@ -1,5 +1,10 @@
 <template>
-  <div class="single-card" @click="$emit('wasClicked')">
+  <div
+    class="single-card"
+    @click="$emit('wasClicked')"
+    @mouseenter="$emit('showDelete')"
+    @mouseleave="$emit('hideDelete')"
+  >
     <div class="card" v-bind:style="cardStyle">
       <span class="upperpart">
         <div class="logos">

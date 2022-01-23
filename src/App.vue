@@ -17,9 +17,6 @@ export default {
         this.currentview = "home";
       }
     },
-    saveCard(card) {
-      this.cardsArray.push(card);
-    },
   },
   components: { Home, AddCard },
   data() {

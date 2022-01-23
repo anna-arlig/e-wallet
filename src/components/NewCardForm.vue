@@ -2,6 +2,11 @@
   <div>
     <SingelCard :card="card" :vendors="vendors" />
     <form class="user-form" @submit.prevent="submit">
+        <p v-if="errors.length">
+    <b>Please correct the following error(s):</b>
+    <ul>
+      <li v-for="error in errors" :key="error">{{ error }}</li>
+    </ul></p>
       <label for="card-number">CARD NUMBER</label>
       <input type="number" name="cardnumber" v-model="card.cardNumber" />
       <label for="cardholder-name">CARDHOLDER NAME</label>
@@ -54,6 +59,7 @@ export default {
   components: { SingelCard },
   data() {
     return {
+      errors: [],
       savedCardsArray: [],
       card: {
         cardNumber: "",
@@ -108,8 +114,35 @@ export default {
     };
   },
   methods: {
-    validate() {
-      this.$emit("viewChange");
+    validate(e) {
+
+        this.errors = [];
+
+    // if (!/[^a-zA-Z]/.test(this.cardholderName)){
+    //     this.errors.push('Only letters in Cardholder name')
+    // }
+
+      if (this.card.cardNumber === "") {
+        this.errors.push('Cardnumber required.');
+      }
+      if (this.card.cardholderName === "") {
+        this.errors.push('Cardholder name required.');
+      }
+         if (this.card.month === "") {
+        this.errors.push('Month required.');
+      }
+         if (this.card.year === "") {
+        this.errors.push('Year required.');
+      }
+         if (Object.keys(this.card.vendor).length === 0 && this.card.vendor.constructor === Object) {
+        this.errors.push('Vendor required.');
+      }
+
+      e.preventDefault()
+
+     if (!this.errors.length) {
+        this.$emit("viewChange");
+      }
     },
   },
   beforeDestroy() {
