@@ -13,6 +13,7 @@
         </div>
         <img :src="logo" alt="Vendor logo" />
       </span>
+
       <button
         class="delete-btn"
         v-if="deleteBtn"

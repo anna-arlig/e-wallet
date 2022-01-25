@@ -126,6 +126,8 @@ this.savedCardsArray = JSON.parse(localStorage.getItem("savedCards"));}
             }
         }
 
+
+        //Why no work???????
     // if (!/[^a-zA-Z]/.test(this.cardholderName)){
     //     this.errors.push('Only letters in Cardholder name')
     // }

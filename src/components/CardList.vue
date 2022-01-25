@@ -14,6 +14,7 @@
       :class="{ active: index === 0 }"
       :style="{ zIndex: index }"
     />
+    <!-- Detta borde gå att lösa bättre -->
     <button
       class="empty-btn"
       v-if="!savedCardsArray"
@@ -59,6 +60,8 @@ export default {
         this.deleteBtn = true;
       }
     },
+
+    // Funkar inte, flytta till AddCard?
 
     showConfirm() {
       if (this.confirmView === true) {
