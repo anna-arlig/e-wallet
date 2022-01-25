@@ -1,23 +1,29 @@
 <template>
   <div class="card-list">
-    <SingelCard v-if="!savedCardsArray" :card="card" class="single-card" />
+    <SingelCard
+      v-if="savedCardsArray.length <= 0"
+      :card="card"
+      class="single-card"
+    />
     <SingelCard
       :allowDelete="index === 0"
       @wasClicked="changeActive(index)"
       @showDelete="showDelete(index)"
       @hideDelete="hideDelete(index)"
-      @showConfirm="showConfirm"
+      @showConfirm="$emit('showConfirm', index)"
       :card="card"
+      :savedCardsArray="savedCardsArray"
       v-else
       v-for="(card, index) in savedCardsArray"
       :key="card.index"
       :class="{ active: index === 0 }"
       :style="{ zIndex: index }"
     />
+
     <!-- Detta borde gå att lösa bättre -->
     <button
       class="empty-btn"
-      v-if="!savedCardsArray"
+      v-if="savedCardsArray.length <= 0"
       @click="$emit('viewChange')"
     >
       ADD A NEW CARD
@@ -31,14 +37,11 @@
 <script>
 import SingelCard from "./SingelCard.vue";
 export default {
-  mounted() {
-    this.savedCardsArray = JSON.parse(localStorage.getItem("savedCards"));
-  },
+  props: ["savedCardsArray"],
+
   data() {
     return {
-      confirmView: false,
       allowDelete: false,
-      savedCardsArray: [],
       card: {
         cardNumber: "",
         cardholderName: "",
@@ -58,16 +61,6 @@ export default {
     showDelete(index) {
       if (index === 0) {
         this.deleteBtn = true;
-      }
-    },
-
-    // Funkar inte, flytta till AddCard?
-
-    showConfirm() {
-      if (this.confirmView === true) {
-        this.confirmView = false;
-      } else {
-        this.confirmView = true;
       }
     },
 

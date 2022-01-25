@@ -1,7 +1,7 @@
 <template>
   <div>
     <SingelCard :card="card" :vendors="vendors" />
-    <form class="user-form" @submit.prevent="submit">
+    <form class="user-form" @submit.prevent="validate">
         <p v-if="errors.length">
     <b>Please correct the following error(s):</b>
     <ul>
@@ -45,7 +45,6 @@
       </select>
       <input
         class="submit-btn"
-        @click="validate"
         type="submit"
         value="ADD CARD"
       />
@@ -114,12 +113,12 @@ export default {
     };
   },
   methods: {
-    validate(e) {
+    validate() {
 
         this.errors = [];
 
     if (localStorage.getItem("savedCards") != undefined){
-this.savedCardsArray = JSON.parse(localStorage.getItem("savedCards"));}
+      this.savedCardsArray = JSON.parse(localStorage.getItem("savedCards"));}
         for (let element of this.savedCardsArray){
             if (element.cardNumber == this.card.cardNumber){
                 this.errors.push('Cardnumber needs to be unique.');
@@ -148,20 +147,13 @@ this.savedCardsArray = JSON.parse(localStorage.getItem("savedCards"));}
         this.errors.push('Vendor required.');
       }
 
-      e.preventDefault()
-
      if (!this.errors.length) {
         this.$emit("viewChange");
+        this.$emit('saveCard', this.card)
       }
     },
   },
-  beforeDestroy() {
-    if (localStorage.getItem("savedCards") != undefined) {
-      this.savedCardsArray = JSON.parse(localStorage.getItem("savedCards"));
-    }
-    this.savedCardsArray.push(this.card);
-    localStorage.setItem("savedCards", JSON.stringify(this.savedCardsArray));
-  },
+ 
 };
 </script>
 

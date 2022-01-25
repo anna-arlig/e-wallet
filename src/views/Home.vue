@@ -2,7 +2,12 @@
   <div class="home-view">
     <h1>E-Wallet</h1>
     <p :style="{ color: 'darkgrey' }">Active card</p>
-    <CardList @viewChange="$emit('viewChange')" />
+
+    <CardList
+      @viewChange="$emit('viewChange')"
+      :savedCardsArray="savedCardsArray"
+      @showConfirm="$emit('showConfirm', $event)"
+    />
   </div>
 </template>
 
@@ -10,6 +15,7 @@
 import { CardList } from "../components";
 
 export default {
+  props: ["savedCardsArray"],
   methods: {},
 
   data() {

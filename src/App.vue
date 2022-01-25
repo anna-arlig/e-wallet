@@ -1,15 +1,48 @@
 <template>
   <div class="app">
-    <Home v-if="currentview == 'home'" @viewChange="changeView" />
-    <AddCard v-else @viewChange="changeView" />
+    <div v-if="confirmView" class="confirm">
+      <div class="inner-confirm">
+        <h2>Are you sure that you want to delete this card?</h2>
+        <button @click="removeCard">Yes, delete this card</button>
+        <button @click="confirmView = false">No, take me back</button>
+      </div>
+    </div>
+    <Home
+      v-if="currentview == 'home'"
+      @viewChange="changeView"
+      :savedCardsArray="savedCardsArray"
+      @showConfirm="showConfirm"
+    />
+    <AddCard v-else @viewChange="changeView" @saveCard="saveCard" />
   </div>
 </template>
 
 <script>
 import Home from "./views/Home.vue";
 import AddCard from "./views/AddCard.vue";
+
 export default {
+  mounted() {
+    this.savedCardsArray = JSON.parse(localStorage.getItem("savedCards"));
+  },
   methods: {
+    removeCard(index) {
+      this.savedCardsArray.splice(index, 1);
+      localStorage.setItem("savedCards", JSON.stringify(this.savedCardsArray));
+      this.confirmView = false;
+    },
+
+    showConfirm() {
+      if (this.confirmView) {
+        this.confirmView = false;
+      } else {
+        this.confirmView = true;
+      }
+    },
+    saveCard(card) {
+      this.savedCardsArray.push(card);
+      localStorage.setItem("savedCards", JSON.stringify(this.savedCardsArray));
+    },
     changeView() {
       if (this.currentview == "home") {
         this.currentview = "AddCard";
@@ -21,6 +54,8 @@ export default {
   components: { Home, AddCard },
   data() {
     return {
+      confirmView: false,
+      savedCardsArray: [],
       currentview: "home",
     };
   },
@@ -32,6 +67,29 @@ export default {
 * {
   font-family: "PT Mono", monospace;
   font-size: 10px;
+}
+
+h2 {
+  font-size: 15px;
+}
+.confirm {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  z-index: 15;
+  background-color: rgba(0, 0, 0, 0.4);
+  height: 100vh;
+  width: 100vh;
+}
+
+.inner-confirm {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  color: black;
+  text-align: center;
 }
 
 button {

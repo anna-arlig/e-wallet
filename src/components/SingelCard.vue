@@ -9,7 +9,7 @@
       <span class="upperpart">
         <div class="logos">
           <img :src="wifi" alt="Wifi logo" id="wifiImg" />
-          <img :src="chipImg" alt="Chip logo" id="chipImg" />
+          <img src="../assets/chip.svg" alt="Chip logo" id="chipImg" />
         </div>
         <img :src="logo" alt="Vendor logo" />
       </span>
@@ -21,6 +21,7 @@
       >
         Delete this card
       </button>
+
       <span class="middlepart"
         ><p id="cardnum">{{ cardNum }}</p></span
       >
@@ -42,13 +43,9 @@
 export default {
   computed: {
     wifi() {
-      let span = "";
-      if (this.card.vendor.name == "Ninja Bank") {
-        span = this.whiteWifiImg;
-      } else {
-        span = this.wifiImg;
-      }
-      return span;
+      return this.card.vendor.name == "Ninja Bank"
+        ? this.whiteWifiImg
+        : this.wifiImg;
     },
 
     cardStyle() {
@@ -57,15 +54,11 @@ export default {
         color: this.card.vendor.fontColor,
       };
     },
+
     logo() {
-      let span = "";
-      if (this.card.vendor.logo) {
-        span = this.card.vendor.logo;
-      } else {
-        span = this.vendorLogo;
-      }
-      return span;
+      return this.card.vendor.logo ? this.card.vendor.logo : this.vendorLogo;
     },
+
     cardNum() {
       let span = "";
       if (this.card.cardNumber) {
@@ -80,31 +73,15 @@ export default {
       return span;
     },
     holderName() {
-      let span = "";
-      if (this.card.cardholderName) {
-        span = this.card.cardholderName;
-      } else {
-        span = `Firstname Lastname`;
-      }
-      return span;
+      return this.card.cardholderName
+        ? this.card.cardholderName
+        : `Firstname Lastname`;
     },
     validMonth() {
-      let span = "";
-      if (this.card.month) {
-        span = this.card.month;
-      } else {
-        span = `XX`;
-      }
-      return span;
+      return this.card.month ? this.card.month : `XX`;
     },
     validYear() {
-      let span = "";
-      if (this.card.year) {
-        span = this.card.year.substring(2, 4);
-      } else {
-        span = `XX`;
-      }
-      return span;
+      return this.card.year ? this.card.year : `XX`;
     },
   },
   props: ["card", "vendors", "allowDelete"],
