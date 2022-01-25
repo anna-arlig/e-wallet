@@ -1,13 +1,12 @@
 <template>
   <div class="card-list">
-    <button class="delete-btn" v-if="deleteBtn" @click="showConfirm">
-      Delete this card
-    </button>
     <SingelCard v-if="!savedCardsArray" :card="card" class="single-card" />
     <SingelCard
+      :allowDelete="index === 0"
       @wasClicked="changeActive(index)"
       @showDelete="showDelete(index)"
       @hideDelete="hideDelete(index)"
+      @showConfirm="showConfirm"
       :card="card"
       v-else
       v-for="(card, index) in savedCardsArray"
@@ -37,7 +36,7 @@ export default {
   data() {
     return {
       confirmView: false,
-      deleteBtn: false,
+      allowDelete: false,
       savedCardsArray: [],
       card: {
         cardNumber: "",
@@ -50,13 +49,6 @@ export default {
   },
   components: { SingelCard },
   methods: {
-    showConfirm() {
-      if (this.confirmView === true) {
-        this.confirmView = false;
-      } else {
-        this.confirmView = true;
-      }
-    },
     hideDelete(index) {
       if (index === 0) {
         this.deleteBtn = false;
@@ -65,6 +57,14 @@ export default {
     showDelete(index) {
       if (index === 0) {
         this.deleteBtn = true;
+      }
+    },
+
+    showConfirm() {
+      if (this.confirmView === true) {
+        this.confirmView = false;
+      } else {
+        this.confirmView = true;
       }
     },
 
@@ -80,11 +80,6 @@ export default {
 </script>
 
 <style scoped>
-.delete-btn {
-  min-width: 200px;
-  padding: 0px;
-}
-
 .single-card:not(:first-of-type):hover {
   transform: translateY(-20%);
 }
@@ -94,17 +89,6 @@ export default {
   margin-bottom: -180px;
 }
 
-button {
-  background-color: white;
-  border-radius: 5px;
-  border: 2px solid black;
-  font-size: 18px;
-  font-weight: 600;
-  min-height: 50px;
-  padding-left: 100px;
-  padding-right: 100px;
-  margin: auto;
-}
 .full-btn {
   margin-top: 210px;
 }

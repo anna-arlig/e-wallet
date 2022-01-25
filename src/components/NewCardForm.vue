@@ -118,6 +118,14 @@ export default {
 
         this.errors = [];
 
+    if (localStorage.getItem("savedCards") != undefined){
+this.savedCardsArray = JSON.parse(localStorage.getItem("savedCards"));}
+        for (let element of this.savedCardsArray){
+            if (element.cardNumber == this.card.cardNumber){
+                this.errors.push('Cardnumber needs to be unique.');
+            }
+        }
+
     // if (!/[^a-zA-Z]/.test(this.cardholderName)){
     //     this.errors.push('Only letters in Cardholder name')
     // }

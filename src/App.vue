@@ -34,6 +34,18 @@ export default {
   font-size: 10px;
 }
 
+button {
+  background-color: white;
+  border-radius: 5px;
+  border: 2px solid black;
+  font-size: 18px;
+  font-weight: 600;
+  min-height: 50px;
+  padding-left: 100px;
+  padding-right: 100px;
+  margin: auto;
+}
+
 h1 {
   font-family: "Source Sans Pro", sans-serif;
   text-transform: uppercase;

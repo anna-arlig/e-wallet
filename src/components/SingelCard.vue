@@ -2,8 +2,8 @@
   <div
     class="single-card"
     @click="$emit('wasClicked')"
-    @mouseenter="$emit('showDelete')"
-    @mouseleave="$emit('hideDelete')"
+    @mouseenter="allowDelete ? (deleteBtn = true) : null"
+    @mouseleave="allowDelete ? (deleteBtn = false) : null"
   >
     <div class="card" v-bind:style="cardStyle">
       <span class="upperpart">
@@ -13,6 +13,13 @@
         </div>
         <img :src="logo" alt="Vendor logo" />
       </span>
+      <button
+        class="delete-btn"
+        v-if="deleteBtn"
+        @click.stop="$emit('showConfirm')"
+      >
+        Delete this card
+      </button>
       <span class="middlepart"
         ><p id="cardnum">{{ cardNum }}</p></span
       >
@@ -99,9 +106,10 @@ export default {
       return span;
     },
   },
-  props: ["card", "vendors"],
+  props: ["card", "vendors", "allowDelete"],
   data() {
     return {
+      deleteBtn: false,
       wifiImg: require("../assets/wifi.svg"),
       chipImg: require("../assets/chip.svg"),
       whiteWifiImg: require("../assets/wifi_white.svg"),
@@ -113,6 +121,12 @@ export default {
 </script>
 
 <style scoped>
+.delete-btn {
+  min-width: 200px;
+  padding: 0px;
+  margin-left: 80px;
+  position: absolute;
+}
 .name {
   margin-left: 15px;
 }
