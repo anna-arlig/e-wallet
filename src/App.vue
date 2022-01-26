@@ -3,8 +3,12 @@
     <div v-if="confirmView" class="confirm">
       <div class="inner-confirm">
         <h2>Are you sure that you want to delete this card?</h2>
-        <button @click="removeCard">Yes, delete this card</button>
-        <button @click="confirmView = false">No, take me back</button>
+        <button class="confirm-btn" @click="removeCard">
+          Yes, delete this card
+        </button>
+        <button class="confirm-btn" @click="confirmView = false">
+          No, take me back
+        </button>
       </div>
     </div>
     <Home
@@ -64,6 +68,7 @@ export default {
 
 <style>
 @import url("https://fonts.googleapis.com/css2?family=PT+Mono&family=Source+Sans+Pro:wght@400;600&display=swap");
+
 * {
   font-family: "PT Mono", monospace;
   font-size: 10px;
@@ -72,6 +77,7 @@ export default {
 h2 {
   font-size: 15px;
 }
+
 .confirm {
   display: flex;
   justify-content: center;
@@ -81,6 +87,7 @@ h2 {
   background-color: rgba(0, 0, 0, 0.4);
   height: 100vh;
   width: 100vh;
+  margin: 0;
 }
 
 .inner-confirm {
@@ -90,6 +97,17 @@ h2 {
   background-color: white;
   color: black;
   text-align: center;
+  padding: 30px;
+}
+
+.confirm-btn {
+  font-size: 15px;
+  margin: 5px;
+}
+
+.confirm-btn:first-of-type {
+  background-color: rgb(0, 0, 0);
+  color: white;
 }
 
 button {

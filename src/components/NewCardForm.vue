@@ -8,9 +8,9 @@
       <li v-for="error in errors" :key="error">{{ error }}</li>
     </ul></p>
       <label for="card-number">CARD NUMBER</label>
-      <input type="number" name="cardnumber" v-model="card.cardNumber" />
+      <input type="text" name="cardnumber" v-model="card.cardNumber" onkeypress="return /[0-9, Enter]/i.test(event.key)" minlength="16" maxlength="16"/>
       <label for="cardholder-name">CARDHOLDER NAME</label>
-      <input type="text" name="cardholder-name" v-model="card.cardholderName" />
+      <input type="text" name="cardholder-name" v-model="card.cardholderName" onkeypress="return /[a-ö, ' ', Enter]/i.test(event.key)"/>
 
       <div class="date">
         <div class="valid">
@@ -113,6 +113,7 @@ export default {
     };
   },
   methods: {
+    
     validate() {
 
         this.errors = [];
@@ -124,12 +125,6 @@ export default {
                 this.errors.push('Cardnumber needs to be unique.');
             }
         }
-
-
-        //Why no work???????
-    // if (!/[^a-zA-Z]/.test(this.cardholderName)){
-    //     this.errors.push('Only letters in Cardholder name')
-    // }
 
       if (this.card.cardNumber === "") {
         this.errors.push('Cardnumber required.');
