@@ -72,19 +72,24 @@ export default {
       }
       return span;
     },
+
     holderName() {
       return this.card.cardholderName
         ? this.card.cardholderName
         : `Firstname Lastname`;
     },
+
     validMonth() {
       return this.card.month ? this.card.month : `XX`;
     },
+
     validYear() {
-      return this.card.year ? this.card.year : `XX`;
+      return this.card.year ? this.card.year.substring(2, 4) : `XX`;
     },
   },
+
   props: ["card", "vendors", "allowDelete"],
+
   data() {
     return {
       deleteBtn: false,
